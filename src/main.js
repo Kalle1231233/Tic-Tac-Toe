@@ -1,5 +1,3 @@
-// main.js
-
 document.addEventListener("DOMContentLoaded", () => {
     const cells = document.querySelectorAll(".cell");
     const resetButton = document.getElementById("reset-button");
@@ -8,17 +6,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const builDir = "docs";
     const srcDir = "src";
 
-    // Dynamisch "Current Player" erstellen
     const statusDisplay = document.createElement("div");
     statusDisplay.id = "status-display";
     statusDisplay.style.fontSize = "32px";
     statusDisplay.style.fontWeight = "bold";
     statusDisplay.style.color = "#ff6f61";
     statusDisplay.style.marginBottom = "20px";
-    statusDisplay.textContent = "Current Player: X"; // Startstatus
+    statusDisplay.textContent = "Current Player: X"
     document.body.insertBefore(statusDisplay, document.querySelector(".game-container"));
 
-    // Modal für Gewinner oder Unentschieden
     const modal = document.createElement("div");
     modal.id = "game-modal";
     modal.style.display = "none";
@@ -39,27 +35,23 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
     document.body.appendChild(modal);
 
-    let board = Array(9).fill(null); // Represents the game board
-    let currentPlayer = "X"; // X always starts
+    let board = Array(9).fill(null);
+    let currentPlayer = "X";
 
-    // Update the status message
     function updateStatusMessage() {
         statusDisplay.textContent = `Current Player: ${currentPlayer}`;
     }
 
-    // Show modal with a message
     function showModal(message) {
         const modalMessage = document.getElementById("modal-message");
         modalMessage.textContent = message;
         modal.style.display = "flex";
     }
 
-    // Hide modal
     function hideModal() {
         modal.style.display = "none";
     }
 
-    // Initialize the game state
     function initializeGame() {
         const savedState = JSON.parse(localStorage.getItem(gameStateKey));
         if (savedState) {
@@ -73,18 +65,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
         } else {
-            resetGame(); // Reset if no saved state exists
+            resetGame();
         }
         updateStatusMessage();
         updateHoverEffect();
     }
 
-    // Save the game state to localStorage
     function saveGameState() {
         localStorage.setItem(gameStateKey, JSON.stringify({ board, currentPlayer }));
     }
 
-    // Check for a winner
     function checkWinner() {
         const winningCombinations = [
             [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
@@ -102,16 +92,15 @@ document.addEventListener("DOMContentLoaded", () => {
         return board.every(cell => cell) ? "Draw" : null;
     }
 
-    // Handle a player's move
     function handleMove(cell, index) {
-        if (board[index] || checkWinner()) return; // Ignore if cell is marked or game is over
+        if (board[index] || checkWinner()) return;
 
         board[index] = currentPlayer;
         cell.textContent = currentPlayer;
-        cell.style.color = "black"; // Make the clicked mark black
+        cell.style.color = "black";
         cell.classList.add(currentPlayer.toLowerCase());
 
-        saveGameState(); // Save the game state after every move
+        saveGameState();
 
         const winner = checkWinner();
         if (winner) {
@@ -127,7 +116,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Add hover effect directly on buttons based on current player
     function updateHoverEffect() {
         cells.forEach((cell, index) => {
             cell.classList.remove("x-hover", "o-hover");
@@ -147,7 +135,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Reset the game
     function resetGame() {
         board = Array(9).fill(null);
         currentPlayer = "X";
@@ -162,17 +149,13 @@ document.addEventListener("DOMContentLoaded", () => {
         hideModal();
     }
 
-    // Add event listeners to cells
     cells.forEach((cell, index) => {
         cell.addEventListener("click", () => handleMove(cell, index));
     });
 
-    // Add event listener to reset button
     resetButton.addEventListener("click", resetGame);
 
-    // Add event listener to modal restart button
     document.getElementById("restart-button").addEventListener("click", resetGame);
 
-    // Initialize the game state on load
     initializeGame();
 });
