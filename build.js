@@ -19,7 +19,7 @@ const getTimestamp = () => {
 
 
 const srcDir = "src";
-const buildDir = "build";
+const buildDir = "docs";
 
 fs.ensureDirSync(buildDir);
 
