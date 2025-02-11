@@ -5,6 +5,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const resetButton = document.getElementById("reset-button");
     const gameStateKey = "tik-tak-toe-state";
 
+    const builDir = "docs";
+    const srcDir = "src";
+
     // Dynamisch "Current Player" erstellen
     const statusDisplay = document.createElement("div");
     statusDisplay.id = "status-display";
